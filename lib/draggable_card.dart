@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 enum SlideDirection { left, right, up }
+
 enum SlideRegion { inNopeRegion, inLikeRegion, inSuperLikeRegion }
 
 class DraggableCard extends StatefulWidget {
@@ -16,17 +17,22 @@ class DraggableCard extends StatefulWidget {
   final bool upSwipeAllowed;
   final EdgeInsets padding;
   final bool isBackCard;
+  final Duration slideBackDuration;
+  final Duration slideOutDuration;
 
-  DraggableCard(
-      {this.card,
-      this.isDraggable = true,
-      this.onSlideUpdate,
-      this.onSlideOutComplete,
-      this.slideTo,
-      this.onSlideRegionUpdate,
-      this.upSwipeAllowed = true,
-      this.isBackCard = false,
-      this.padding = EdgeInsets.zero});
+  DraggableCard({
+    this.card,
+    this.isDraggable = true,
+    this.onSlideUpdate,
+    this.onSlideOutComplete,
+    this.slideTo,
+    this.onSlideRegionUpdate,
+    this.upSwipeAllowed = true,
+    this.isBackCard = false,
+    this.padding = EdgeInsets.zero,
+    this.slideBackDuration = const Duration(milliseconds: 750),
+    this.slideOutDuration = const Duration(milliseconds: 500),
+  });
 
   @override
   _DraggableCardState createState() => _DraggableCardState();
@@ -55,7 +61,7 @@ class _DraggableCardState extends State<DraggableCard>
   void initState() {
     super.initState();
     slideBackAnimation = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+      duration: widget.slideBackDuration,
       vsync: this,
     )
       ..addListener(() => setState(() {
@@ -84,7 +90,7 @@ class _DraggableCardState extends State<DraggableCard>
       });
 
     slideOutAnimation = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: widget.slideOutDuration,
       vsync: this,
     )
       ..addListener(() {
@@ -133,6 +139,8 @@ class _DraggableCardState extends State<DraggableCard>
           break;
         case SlideDirection.up:
           _slideUp();
+          break;
+        default:
           break;
       }
     }
