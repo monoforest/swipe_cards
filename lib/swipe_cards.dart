@@ -175,6 +175,8 @@ class _SwipeCardsState extends State<SwipeCards> {
             card: _buildBackCard(),
             upSwipeAllowed: widget.upSwipeAllowed,
             isBackCard: true,
+            slideBackDuration: widget.slideBackDuration,
+            slideOutDuration: widget.slideOutDuration,
           ),
         if (widget.matchEngine.currentItem != null)
           DraggableCard(
